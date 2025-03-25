@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>量子未来 | 超维科技博客</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #ff00aa;
+            --tertiary: #7700ff;
+            --dark: #0a0a12;
+            --light: rgba(255, 255, 255, 0.9);
+            --neon-glow: 0 0 10px var(--primary), 
+                         0 0 20px var(--secondary), 
+                         0 0 30px var(--tertiary);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', 'Orbitron', sans-serif;
+        }
+
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        }
+
+        body {
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            perspective: 1000px;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%2300f7ff" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="5" fill="%23ff00aa"/></svg>'), auto;
+        }
+
+        /* 3D全息背景 */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #0a0a20 0%, #000000 100%);
+        }
+
+        /* 赛博朋克风格导航 */
+        .cyber-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+            z-index: 100;
+            background: rgba(10, 10, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.3);
+            box-shadow: var(--neon-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .nav-item:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* 全息主标题 */
+        .holographic-header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-title {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+            margin-bottom: 1rem;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { opacity: 0.8; filter: brightness(1); }
+            100% { opacity: 1; filter: brightness(1.5); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--light);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .cta-button {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .primary-button {
+            background: linear-gradient(45deg, var(--primary), var(--tertiary));
+            color: var(--dark);
+            border: 2px solid var(--primary);
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.4);
+        }
+
+        /* 量子网格背景效果 */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        /* 3D卡片文章 */
+        .articles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            padding: 5rem 10%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .holographic-card {
+            background: rgba(20, 20, 30, 0.6);
+            border-radius: 15px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .holographic-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(0, 247, 255, 0.1),
+                rgba(255, 0, 170, 0.1),
+                rgba(119, 0, 255, 0.1)
+            );
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: hologramScan 6s linear infinite;
+        }
+
+        @keyframes hologramScan {
+            0% { transform: translateY(-100%) rotate(45deg); }
+            100% { transform: translateY(100%) rotate(45deg); }
+        }
+
+        .holographic-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 20px 50px rgba(0, 247, 255, 0.2),
+                       0 0 30px rgba(255, 0, 170, 0.3);
+            border-color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+
+        .card-content {
+            color: var(--light);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+        }
+
+        /* 语音助手按钮 */
+        .voice-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.5),
+                        inset 0 0 10px rgba(255, 255, 255, 0.3);
+            z-index: 100;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 247, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 247, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 247, 255, 0); }
+        }
+
+        .voice-assistant i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .main-title {
+                font-size: 3.5rem;
+            }
+            
+            .articles-container {
+                grid-template-columns: 1fr;
+                padding: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-item {
+                font-size: 1rem;
+                padding: 0.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(20, 20, 30, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid var(--primary);
+            box-shadow: var(--neon-glow);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg);
+            color: var(--secondary);
+        }
+
+        /* 联系表单样式 */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .form-input {
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 5px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            padding: 0.8rem;
+            background: linear-gradient(45deg, var(--primary), var(--tertiary));
+            color: var(--dark);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D粒子背景 -->
+    <div id="particles-js"></div>
+    
+    <!-- 量子网格 -->
+    <div class="grid-overlay"></div>
+    
+    <!-- 赛博朋克导航 -->
+    <nav class="cyber-nav">
+        <div class="nav-links">
+            <a href="#home" class="nav-item">首页</a>
+            <a href="#articles" class="nav-item">文章</a>
+            <a href="#lab" class="nav-item">实验室</a>
+            <a href="#about" class="nav-item">关于</a>
+            <a href="#" class="nav-item" id="contact-link">联系</a>
+        </div>
+    </nav>
+    
+    <!-- 全息主标题区 -->
+    <header class="holographic-header" id="home">
+        <div class="title-container">
+            <h1 class="main-title">量子未来</h1>
+            <p class="subtitle">
+                探索前沿科技与未来趋势的超维空间站。在这里，我们解码人工智能、量子计算、元宇宙和生物科技的无限可能。
+            </p>
+            <div class="cta-buttons">
+                <a href="#articles" class="cta-button primary-button">探索文章</a>
+                <a href="#" class="cta-button secondary-button" id="subscribe-btn">订阅更新</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 3D全息文章卡片 -->
+    <main class="articles-container" id="articles">
+        <article class="holographic-card" onclick="window.location.href='article-quantum.html'">
+            <h2 class="card-title">量子霸权时代来临</h2>
+            <p class="card-content">
+                谷歌最新量子处理器Sycamore实现了"量子优越性"，在200秒内完成传统超级计算机需要1万年才能完成的计算任务...
+            </p>
+            <div class="card-meta">
+                <span>2023-12-15</span>
+                <span>科技前沿</span>
+            </div>
+            <a href="article-quantum.html" class="read-more">阅读全文 →</a>
+        </article>
+        
+        <article class="holographic-card" onclick="window.location.href='article-neuralink.html'">
+            <h2 class="card-title">神经接口革命</h2>
+            <p class="card-content">
+                Neuralink最新脑机接口技术突破，实现人脑与AI直接对话。未来人类或将通过思维直接控制数字世界...
+            </p>
+            <div class="card-meta">
+                <span>2023-12-10</span>
+                <span>生物科技</span>
+            </div>
+            <a href="article-neuralink.html" class="read-more">阅读全文 →</a>
+        </article>
+        
+        <article class="holographic-card" onclick="window.location.href='article-metaverse.html'">
+            <h2 class="card-title">元宇宙经济体系</h2>
+            <p class="card-content">
+                虚拟世界中的数字经济正在形成完整生态链，从数字土地交易到虚拟身份NFT，新一代互联网雏形已现...
+            </p>
+            <div class="card-meta">
+                <span>2023-12-05</span>
+                <span>未来趋势</span>
+            </div>
+            <a href="article-metaverse.html" class="read-more">阅读全文 →</a>
+        </article>
+        
+        <article class="holographic-card" onclick="window.location.href='article-ai-art.html'">
+            <h2 class="card-title">AI生成艺术爆发</h2>
+            <p class="card-content">
+                Midjourney V6和Stable Diffusion 3.0引发创作革命，人工智能正在重新定义艺术创作的边界与可能性...
+            </p>
+            <div class="card-meta">
+                <span>2023-11-28</span>
+                <span>人工智能</span>
+            </div>
+            <a href="article-ai-art.html" class="read-more">阅读全文 →</a>
+        </article>
+        
+        <article class="holographic-card" onclick="window.location.href='article-fusion.html'">
+            <h2 class="card-title">可控核聚变突破</h2>
+            <p class="card-content">
+                MIT最新超导磁体技术使核聚变反应堆小型化成为可能，人类无限清洁能源梦想或将实现...
+            </p>
+            <div class="card-meta">
+                <span>2023-11-20</span>
+                <span>能源科技</span>
+            </div>
+            <a href="article-fusion.html" class="read-more">阅读全文 →</a>
+        </article>
+        
+        <article class="holographic-card" onclick="window.location.href='article-digital-immortality.html'">
+            <h2 class="card-title">数字永生计划</h2>
+            <p class="card-content">
+                通过脑扫描和AI人格模拟，科学家正在探索将人类意识数字化的可能性，这会是永生的钥匙吗...
+            </p>
+            <div class="card-meta">
+                <span>2023-11-15</span>
+                <span>未来学</span>
+            </div>
+            <a href="article-digital-immortality.html" class="read-more">阅读全文 →</a>
+        </article>
+    </main>
+
+    <!-- 实验室部分 -->
+    <section id="lab" style="padding: 5rem 10%; position: relative; z-index: 2;">
+        <h2 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 2rem; text-align: center;">量子实验室</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="holographic-card" onclick="window.location.href='lab-ai-demo.html'">
+                <h3 class="card-title">AI交互演示</h3>
+                <p class="card-content">体验最新的人工智能交互系统，与AI进行实时对话</p>
+                <div class="card-meta">
+                    <span>在线演示</span>
+                    <span>互动体验</span>
+                </div>
+            </div>
+            <div class="holographic-card" onclick="window.location.href='lab-quantum-sim.html'">
+                <h3 class="card-title">量子模拟器</h3>
+                <p class="card-content">在浏览器中运行量子算法，体验量子计算的魔力</p>
+                <div class="card-meta">
+                    <span>教育工具</span>
+                    <span>交互式</span>
+                </div>
+            </div>
+            <div class="holographic-card" onclick="window.location.href='lab-neural-visualizer.html'">
+                <h3 class="card-title">神经网络可视化</h3>
+                <p class="card-content">实时观察神经网络的学习过程和决策机制</p>
+                <div class="card-meta">
+                    <span>深度学习</span>
+                    <span>可视化</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于部分 -->
+    <section id="about" style="padding: 5rem 10%; position: relative; z-index: 2; background: rgba(10, 10, 20, 0.7);">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 2rem; text-align: center;">关于我们</h2>
+            <p style="color: var(--light); line-height: 1.7; margin-bottom: 1.5rem;">
+                量子未来是一个致力于探索前沿科技与未来趋势的独立媒体平台。我们的团队由科学家、工程师和未来学家组成，专注于将复杂的科技概念转化为大众能够理解的内容。
+            </p>
+            <p style="color: var(--light); line-height: 1.7; margin-bottom: 1.5rem;">
+                我们的使命是搭建科技与人文的桥梁，帮助人们理解技术发展将如何塑造我们的未来社会。
+            </p>
+            <div style="display: flex; justify-content: center; margin-top: 2rem;">
+                <a href="#contact" class="cta-button primary-button" style="text-decoration: none;">联系我们</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系模态框 -->
+    <div class="modal" id="contact-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: var(--primary); margin-bottom: 1.5rem;">联系我们</h2>
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="name" class="form-label">您的姓名</label>
+                    <input type="text" id="name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">电子邮箱</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="message" class="form-label">留言内容</label>
+                    <textarea id="message" class="form-input form-textarea" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">发送消息</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 订阅模态框 -->
+    <div class="modal" id="subscribe-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: var(--primary); margin-bottom: 1.5rem;">订阅量子未来</h2>
+            <p style="color: var(--light); margin-bottom: 1.5rem;">订阅我们的 newsletter，获取最新科技动态和独家内容</p>
+            <form class="contact-form" id="subscribe-form">
+                <div class="form-group">
+                    <label for="sub-name" class="form-label">姓名</label>
+                    <input type="text" id="sub-name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="sub-email" class="form-label">电子邮箱*</label>
+                    <input type="email" id="sub-email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">感兴趣的领域</label>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="interest" value="ai"> 人工智能
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="interest" value="quantum"> 量子计算
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="interest" value="biotech"> 生物科技
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="interest" value="space"> 太空探索
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">订阅</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 语音助手 -->
+    <div class="voice-assistant" id="voiceAssistant">
+        <i class="fas fa-robot"></i>
+    </div>
+    
+    <!-- 全息特效脚本 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 3D粒子背景配置
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": ["#00f7ff", "#ff00aa", "#7700ff"]
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00f7ff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.5
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // 模态框功能
+        const contactModal = document.getElementById('contact-modal');
+        const subscribeModal = document.getElementById('subscribe-modal');
+        const contactLink = document.getElementById('contact-link');
+        const subscribeBtn = document.getElementById('subscribe-btn');
+        const closeButtons = document.querySelectorAll('.close-modal');
+
+        contactLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+        });
+
+        subscribeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            subscribeModal.style.display = 'flex';
+        });
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                contactModal.style.display = 'none';
+                subscribeModal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+            }
+            if (e.target === subscribeModal) {
+                subscribeModal.style.display = 'none';
+            }
+        });
+
+        // 表单提交
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('感谢您的留言！我们会尽快回复您。');
+            contactModal.style.display = 'none';
+            e.target.reset();
+        });
+
+        document.getElementById('subscribe-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('订阅成功！感谢您关注量子未来。');
+            subscribeModal.style.display = 'none';
+            e.target.reset();
+        });
+
+        // 语音助手功能
+        const voiceAssistant = document.getElementById('voiceAssistant');
+        let listening = false;
+        let recognition;
+
+        voiceAssistant.addEventListener('click', () => {
+            if (!listening) {
+                startListening();
+            } else {
+                stopListening();
+            }
+        });
+
+        function startListening() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'zh-CN';
+
+                recognition.onstart = () => {
+                    listening = true;
+                    voiceAssistant.style.background = 'linear-gradient(135deg, #ff00aa, #7700ff)';
+                    voiceAssistant.innerHTML = '<i class="fas fa-microphone"></i>';
+                    voiceAssistant.style.animation = 'pulse 0.5s infinite';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0])
+                        .map(result => result.transcript)
+                        .join('');
+
+                    if (event.results[0].isFinal) {
+                        processVoiceCommand(transcript);
+                    }
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('语音识别错误:', event.error);
+                    stopListening();
+                };
+
+                recognition.start();
+            } else {
+                alert('您的浏览器不支持语音识别，请使用Chrome或Edge浏览器');
+            }
+        }
+
+        function stopListening() {
+            if (recognition) {
+                recognition.stop();
+            }
+            listening = false;
+            voiceAssistant.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+            voiceAssistant.innerHTML = '<i class="fas fa-robot"></i>';
+            voiceAssistant.style.animation = 'pulse 2s infinite';
+        }
+
+        function processVoiceCommand(command) {
+            command = command.toLowerCase();
+            
+            if (command.includes('首页') || command.includes('主页')) {
+                window.location.href = '#home';
+                speak('正在跳转到首页');
+            } else if (command.includes('文章') || command.includes('博客')) {
+                window.location.href = '#articles';
+                speak('正在展示文章列表');
+            } else if (command.includes('实验室') || command.includes('演示')) {
+                window.location.href = '#lab';
+                speak('打开实验室页面');
+            } else if (command.includes('关于') || command.includes('我们')) {
+                window.location.href = '#about';
+                speak('这是关于我们的信息');
+            } else if (command.includes('联系') || command.includes('contact')) {
+                contactModal.style.display = 'flex';
+                speak('打开联系表单');
+            } else if (command.includes('订阅') || command.includes('newsletter')) {
+                subscribeModal.style.display = 'flex';
+                speak('打开订阅表单');
+            } else {
+                speak('抱歉，我没有理解您的指令。您可以尝试说"首页"、"文章"或"联系我们"');
+            }
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance();
+                speech.text = text;
+                speech.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'zh-CN');
+                speech.rate = 0.9;
+                speech.pitch = 1.2;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        // 3D卡片悬停效果增强
+        const cards = document.querySelectorAll('.holographic-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const x = e.clientX - card.getBoundingClientRect().left;
+                const y = e.clientY - card.getBoundingClientRect().top;
+                
+                const centerX = card.offsetWidth / 2;
+                const centerY = card.offsetHeight / 2;
+                
+                const angleX = (y - centerY) / 20;
+                const angleY = (centerX - x) / 20;
+                
+                card.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(20px)`;
+                
+                // 光斑跟随效果
+                const glow = document.createElement('div');
+                glow.style.position = 'absolute';
+                glow.style.width = '100px';
+                glow.style.height = '100px';
+                glow.style.background = 'radial-gradient(circle, rgba(0,247,255,0.3) 0%, transparent 70%)';
+                glow.style.borderRadius = '50%';
+                glow.style.top = `${y - 50}px`;
+                glow.style.left = `${x - 50}px`;
+                glow.style.pointerEvents = 'none';
+                glow.style.zIndex = '-1';
+                glow.style.filter = 'blur(5px)';
+                card.appendChild(glow);
+                
+                setTimeout(() => {
+                    glow.style.opacity = '0';
+                    setTimeout(() => glow.remove(), 300);
+                }, 100);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 初始加载动画
+        window.addEventListener('load', () => {
+            document.querySelector('.main-title').style.opacity = '1';
+            document.querySelector('.subtitle').style.opacity = '1';
+            
+            // 卡片初始状态
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = `all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.1}s`;
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 500 + index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
